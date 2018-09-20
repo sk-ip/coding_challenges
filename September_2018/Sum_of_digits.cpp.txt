@@ -1,0 +1,18 @@
+#include<stdio.h>
+int main()
+{ int i,t;
+scanf("%d",&t);
+int sum,temp1,num;
+for(i=0;i<t;i++)
+{scanf("%d",&num);
+ sum=0;
+ while(num!=0)
+  {temp1=num%10;
+   sum+=temp1;
+   num=num/10;
+  }
+  printf("\n%d",sum);
+}
+
+return 0;
+}
