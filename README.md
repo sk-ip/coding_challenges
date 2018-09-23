@@ -1,1 +1,1 @@
-A repository of all thecoding challenges i have paricipted, solved fully and passed all the test cases, a performance metric of my coding abilities :)
+A repository of all the coding challenges i have paricipted, solved fully and passed all the test cases, a performance metric of my coding abilities :)
