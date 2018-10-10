@@ -1,3 +1,4 @@
+//miniproject
 import java.util.Scanner;
 import java.lang.*;
 import java.math.*;
