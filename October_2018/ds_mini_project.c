@@ -2,8 +2,6 @@
 #include<conio.h>
 #include<string.h>
 #include<stdlib.h>
-#include<windows.h>
-#include<malloc.h>
 
 FILE *med,*ptr;
 struct data
@@ -111,14 +109,14 @@ void update_stock()
 			   break;
 		case 2:view_med();
 			   break;
-	}
-	
+	}	
 }
 
 void view_med()
 {
 	system("cls");
-	char line[40]="",ch;
+	int i,j=0,k=0;
+	char line[40]="",ar[20],ch;
 	med=fopen("ds_mini_project.txt","r");
 	printf("ID\tNAME\tTYPE\tQUANT\tEXP.DATE\tPRICE\n");
 	while(!feof(med))
@@ -126,8 +124,25 @@ void view_med()
 		fgets(line,40,med);
 		puts(line);
 		line[0]='\0';
+		j++;
 	}
 	fclose(med);
+	printf("\nEnter medicine name to be searched:");
+	scanf("%s",&ar);
+	ptr=fopen("ds_mini_project.txt","r");
+	for(i=0;i<j;i++)
+	{
+		fscanf(ptr,"\n%d\t%s\t%s\t%d\t%s\t%f\n",&d2[i].id,&d2[i].name,&d2[i].type,&d2[i].quantity,&d2[i].expd,&d2[i].price);
+		if(strcmp(d2[i].name,ar)==0)
+		{
+			k++;
+			printf("\nMedicine found in database!\n");
+			printf("\nDetails of medicine are:\nID\tNAME\tTYPE\tQUANT\tEXP.DATE\tPRICE\n%d\t%s\t%s\t%d\t%s\t%0.2f\n",d2[i].id,d2[i].name,d2[i].type,d2[i].quantity,d2[i].expd,d2[i].price);
+		}
+	}
+	if(k==0)
+		printf("\nMedicine not found in database!");
+	fclose(ptr);
 	printf("\nPress:\n0.Back\n1.Exit\n");
 	scanf("%d",&ch);
 	if(ch==0)
@@ -204,8 +219,8 @@ void cust_page(char name[20])
 void buy_med(char custname[20])
 {
 	system("cls");
-	int med_id,j=0,i,quant;
-	char line1[40]="";
+	int med_id,j=0,i,quant,ch;
+	char line1[40]="",sm_name[20];
 	printf("\nLogged in as:%s\n",custname);
 	printf("\nSelect medicine ID from list:\n");
 	printf("ID\tNAME\tTYPE\tQUANT\tEXP.DATE\tPRICE\n");
@@ -218,22 +233,45 @@ void buy_med(char custname[20])
 		j+=1;
 	}
 	fclose(med);
-	printf("\nID:");
-	scanf("%d",&med_id);
-	//obtaining all contents of a file into structure d1
-	ptr=fopen("ds_mini_project.txt","r");
-	for(i=0;i<j;i++)
+	printf("\nBuy medicine by:\n1.ID No.\n2.NAME\n0.Back\n");
+	scanf("%d",&ch);
+	switch(ch)
 	{
-		fscanf(ptr,"\n%d\t%s\t%s\t%d\t%s\t%f\n",&d2[i].id,&d2[i].name,&d2[i].type,&d2[i].quantity,&d2[i].expd,&d2[i].price);
-		if(med_id==d2[i].id)
-		{
-			printf("\nMedicine selected:%s",d2[i].name);
-			printf("\nEnter quantity:");
-			scanf("%d",&quant);
-			bill(custname,d2[i].name,quant,d2[i].price);	
-		}
-	}
-	fclose(ptr);
+		case 0:cust_page(custname);
+			   break;
+		case 1:printf("\nID:");
+			   scanf("%d",&med_id);
+			   ptr=fopen("ds_mini_project.txt","r");
+			   for(i=0;i<j;i++)
+			   {
+				   fscanf(ptr,"\n%d\t%s\t%s\t%d\t%s\t%f\n",&d2[i].id,&d2[i].name,&d2[i].type,&d2[i].quantity,&d2[i].expd,&d2[i].price);
+				   if(med_id==d2[i].id)
+			       {
+					   printf("\nMedicine selected:%s",d2[i].name);
+					   printf("\nEnter quantity:");
+					   scanf("%d",&quant);
+					   bill(custname,d2[i].name,quant,d2[i].price);	
+			  	   }
+			   }
+			   fclose(ptr);
+			   break;
+		case 2:printf("\nNAME:");
+			   scanf("%s",&sm_name);
+			   ptr=fopen("ds_mini_project.txt","r");
+			   for(i=0;i<j;i++)
+			   {
+				   fscanf(ptr,"\n%d\t%s\t%s\t%d\t%s\t%f\n",&d2[i].id,&d2[i].name,&d2[i].type,&d2[i].quantity,&d2[i].expd,&d2[i].price);
+				   if(strcmp(sm_name,d2[i].name)==0)
+			       {
+					   printf("\nMedicine selected:\nID No:%d\nName:%s",d2[i].id,d2[i].name);
+					   printf("\nEnter quantity:");
+					   scanf("%d",&quant);
+					   bill(custname,d2[i].name,quant,d2[i].price);	
+			  	   }
+			   }
+			   fclose(ptr);
+			   break;
+	}	
 }
 
 void bill(char cname[20],char name[20],int quantity,float price)
