@@ -1,3 +1,4 @@
+// program on the concept of multithreading in java
 import java.io.*;
 
 class A extends Thread

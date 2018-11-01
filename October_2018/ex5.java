@@ -1,3 +1,4 @@
+// program in implementing multithreading in java using the runnable interface
 import java.io.*;
 
 class A implements Runnable

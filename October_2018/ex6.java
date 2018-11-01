@@ -1,3 +1,4 @@
+// program on applet to write something on the screen.
 import java.awt.*;
 import java.applet.*;
 
